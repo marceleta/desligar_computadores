@@ -1,0 +1,51 @@
+<Computadores>:
+    canvas.before:
+        Color:
+            rgb: 0,1,0
+    
+    MDGridLayout:
+        cols: 1
+        canvas.before:
+            Color:
+                rgb: 0,1,0
+            Line:
+                width:2
+                rectangle: self.x, self.y, self.width, self.height
+        pos_hint: {'center_x': 0.5, 'center_y': 0.9}
+        size_hint: 1, 0.2
+        MDLabel:
+            text: 'Selecione os computadores para serem desligados'
+            halign: 'center'
+            font_style: 'H5'
+    MDGridLayout:
+        cols: 2
+        padding: 10
+        canvas.before:
+            Color:
+                rgb: 0,0,1
+            Line:
+                width:2
+                rectangle: self.x, self.y, self.width, self.height
+        pos_hint: {'center_x': 0.5, 'center_y':0.7}
+        size_hint: 1, 0.07
+        MDLabel:
+            text: "Computadores"
+    MDGridLayout:
+        cols: 1
+        canvas.before:
+            Color:
+                rgb: 1,0,0
+            Line:
+                width:2
+                rectangle: self.x, self.y, self.width, self.height
+        pos_hint: {'center_x': 0.5, 'center_y':0.35}
+        size_hint: 1, 0.5
+        MDScrollView:
+            MDList:
+                id: lista_computadores
+
+    MDRaisedButton:
+        pos_hint: {'center_x': 0.8, 'center_y': 0.05}
+        text: 'Fechar'
+        icon: 'language-python'
+        on_release: root.fechar_programa()

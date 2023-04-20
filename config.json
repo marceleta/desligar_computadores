@@ -1,0 +1,20 @@
+{
+    "computadores": [
+        {
+            "nome":"Servidor de Dados",
+            "descricao":"Servidor linux no escritorio",
+            "IP":"192.168.20.24",
+            "os":"linux",
+            "usuario": "marcelo",
+            "senha": "1234"
+        },
+        {
+            "nome":"Servidor Linux teste",
+            "descricao":"Servidor windows 7 no escritorio",
+            "IP":"192.168.20.41",
+            "os":"Linux",
+            "usuario": "root",
+            "senha": "1234"
+        }
+    ]
+}
