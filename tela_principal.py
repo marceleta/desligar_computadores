@@ -5,33 +5,72 @@ from kivymd.uix.list import ImageRightWidget
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from kivy.core.window import Window
+from kivy.clock import mainthread
+from kivy.logger import Logger
 
 from kivy.clock import Clock
-import sys
+import sys, time, threading
 import subprocess
 from functools import partial
+from ping3 import ping
 from config import Config
-from util import ping
 from util import comando_shutdown
 
 class Computadores(MDFloatLayout):
     def __init__(self, **kwargs):
         super(Computadores, self).__init__(**kwargs)
         self.computadores = Config.get_computadores()
-        self.rodar_atualizacao()
+        self.itens_lista = []
+        self.thread_loop = True
+        threading.Thread(target=self.thread_verifica_computadores_ligados).start()
+        Clock.schedule_interval(self.atualizar_lista_computadores, 5)
         
-    def carregar_lista_computadores(self):
+    def thread_verifica_computadores_ligados(self):
+        Logger.info('Iniciando Thread')
         
-        widget_lista = self.ids.lista_computadores
-        
-        for computador in self.computadores:
-            icon = ImageRightWidget(source='icons/desligado.png')
+        while self.thread_loop:
+            self.itens_lista.clear()
+            for computador in self.computadores:
+                #desativado = False
             
+                comp_esta_ligado = ping(computador['IP'], timeout=0.1)
+                Logger.info('comp_esta_ligado: {}'.format(comp_esta_ligado))
+                if comp_esta_ligado is not None:
+                    #icon = ImageRightWidget(source='icons/ligado.png')
+                    computador['status'] = True  
+                else:
+                    computador['status'] = False
+                    #icon = ImageRightWidget(source='icons/desligado.png')
+                    #desativado = True
+                
+                ''' item = TwoLineRightIconListItem(text=computador['nome'], secondary_text=computador['descricao'], 
+                                    on_press=partial(self.show_confirmar_desligamento, computador), disabled=desativado)
+                
+                item.add_widget(icon) '''
+                
+                self.itens_lista.append(computador)
+            
+            time.sleep(3)
+        
+        
+    def atualizar_lista_computadores(self, *args):
+        
+        Logger.info('Atualizando MDList')
+        self.ids.lista_computadores.clear_widgets()
+            
+        for computador in self.itens_lista:
+            desativado = False
+            if computador['status']:
+                icon = ImageRightWidget(source='icons/ligado.png')
+            else:
+                icon = ImageRightWidget(source='icons/desligado.png')
+                desativado = True
+                
             item = TwoLineRightIconListItem(text=computador['nome'], secondary_text=computador['descricao'], 
-                                   on_press=partial(self.show_confirmar_desligamento, computador))
-            item.add_widget(icon)
+                                    on_press=partial(self.show_confirmar_desligamento, computador), disabled=desativado)
             
-            widget_lista.add_widget(item)
+            item.add_widget(icon)
+            self.ids.lista_computadores.add_widget(item)
             
             
     def show_confirmar_desligamento(self, computador, dt):
@@ -55,7 +94,7 @@ class Computadores(MDFloatLayout):
         
     def desligar_computador(self, computador, dt):
         comando = comando_shutdown(computador)
-        subprocess.run(comando)
+        threading.Thread(target=subprocess.run, args=(comando, )).start()
         
         self.dialog.dismiss()
         
@@ -63,39 +102,9 @@ class Computadores(MDFloatLayout):
         self.dialog.dismiss()
         
     def fechar_programa(self):
+        self.thread_loop = False
         sys.exit()
-        
-        
-    def atualizar_status_computadores(self, dt):
-        
-                
-        self.ids.lista_computadores.clear_widgets()
-        
-        for computador in self.computadores:
-            comp_ligado = ping(computador['IP'])
-            desativado = False    
-            
-            if comp_ligado == 0:
-                icon = ImageRightWidget(source='icons/ligado.png')
-                
-            else:
-                icon = ImageRightWidget(source='icons/desligado.png')
-                desativado = True
-                
-            linha = TwoLineRightIconListItem(text=computador['nome'], secondary_text=computador['descricao'], 
-                            on_press=partial(self.show_confirmar_desligamento, computador), disabled=desativado)
-            
-            linha.add_widget(icon)
-            self.ids.lista_computadores.add_widget(linha)
-            
-            
-        print('atualizando lista de computadores')
-            
-    
-    def rodar_atualizacao(self):
-        Clock.schedule_once(self.atualizar_status_computadores, 2)
-        Clock.schedule_interval(self.atualizar_status_computadores, 20)
-        
+
     
         
         
