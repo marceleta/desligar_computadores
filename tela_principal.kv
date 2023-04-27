@@ -1,16 +1,8 @@
 <Computadores>:
-    canvas.before:
-        Color:
-            rgb: 0,1,0
     
     MDGridLayout:
         cols: 1
-        canvas.before:
-            Color:
-                rgb: 0,1,0
-            Line:
-                width:2
-                rectangle: self.x, self.y, self.width, self.height
+        
         pos_hint: {'center_x': 0.5, 'center_y': 0.9}
         size_hint: 1, 0.2
         MDLabel:
@@ -22,7 +14,7 @@
         padding: 10
         canvas.before:
             Color:
-                rgb: 0,0,1
+                rgb: 0,0,0
             Line:
                 width:2
                 rectangle: self.x, self.y, self.width, self.height

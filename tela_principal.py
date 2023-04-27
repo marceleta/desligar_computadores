@@ -17,6 +17,8 @@ from config import Config
 from util import comando_shutdown
 
 class Computadores(MDFloatLayout):
+    
+    
     def __init__(self, **kwargs):
         super(Computadores, self).__init__(**kwargs)
         self.computadores = Config.get_computadores()
@@ -31,22 +33,15 @@ class Computadores(MDFloatLayout):
         while self.thread_loop:
             self.itens_lista.clear()
             for computador in self.computadores:
-                #desativado = False
             
                 comp_esta_ligado = ping(computador['IP'], timeout=0.1)
-                Logger.info('comp_esta_ligado: {}'.format(comp_esta_ligado))
+                Logger.info('{} comp_esta_ligado: {}'.format(computador['nome'], comp_esta_ligado))
                 if comp_esta_ligado is not None:
-                    #icon = ImageRightWidget(source='icons/ligado.png')
+                    
                     computador['status'] = True  
                 else:
                     computador['status'] = False
-                    #icon = ImageRightWidget(source='icons/desligado.png')
-                    #desativado = True
-                
-                ''' item = TwoLineRightIconListItem(text=computador['nome'], secondary_text=computador['descricao'], 
-                                    on_press=partial(self.show_confirmar_desligamento, computador), disabled=desativado)
-                
-                item.add_widget(icon) '''
+                    
                 
                 self.itens_lista.append(computador)
             
@@ -101,7 +96,7 @@ class Computadores(MDFloatLayout):
     def fechar_dialog(self, inst):
         self.dialog.dismiss()
         
-    def fechar_programa(self):
+    def fechar_programa(self, *args):
         self.thread_loop = False
         sys.exit()
 
@@ -116,5 +111,7 @@ class Tela_principalApp(MDApp):
     
     def build(self):
         self.theme_cls.primary_palette = "Blue"
-        return Computadores()
+        computadores = Computadores()
+        Window.bind(on_request_close=computadores.fechar_programa)
+        return computadores
     
