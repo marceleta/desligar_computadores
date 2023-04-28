@@ -89,7 +89,7 @@ class Computadores(MDFloatLayout):
         
     def desligar_computador(self, computador, dt):
         comando = comando_shutdown(computador)
-        threading.Thread(target=subprocess.run, args=(comando, )).start()
+        threading.Thread(target=subprocess.run, args=(comando, ), shell=True).start()
         
         self.dialog.dismiss()
         
