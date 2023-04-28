@@ -13,16 +13,40 @@
             "descricao":"Servidor windows 7",
             "IP":"192.168.20.49",
             "os":"windows",
-            "usuario": "nfe-serv",
+            "usuario": "serv-nfe",
             "senha": "1234"
         },
         {
-            "nome":"Servidor Teste",
-            "descricao":"Maquina Virtual",
-            "IP":"192.168.20.41",
-            "os":"linux",
-            "usuario": "root",
-            "senha": "1234"
+            "nome":"Servidor Terminal Server",
+            "descricao":"Maquina do escritorio",
+            "IP":"192.168.20.34",
+            "os":"Windows",
+            "usuario": "marcelino",
+            "senha": "#Rocha10"
+        },
+        {
+            "nome":"Computador Marcelino",
+            "descricao":"Maquina do escritorio",
+            "IP":"192.168.20.22",
+            "os":"Windows",
+            "usuario": "Marcelino",
+            "senha": "#Rocha10"
+        },
+        {
+            "nome":"Maquina PDV",
+            "descricao":"Frente de Loja",
+            "IP":"192.168.20.81",
+            "os":"Windows",
+            "usuario": "pdv",
+            "senha": "123456"
+        },
+        {
+            "nome":"Computador Marcelo",
+            "descricao":"Maquina do escritorio",
+            "IP":"192.168.20.50",
+            "os":"Linux",
+            "usuario": "marcelo",
+            "senha": "Cpf04687N"
         }
 
     ]
