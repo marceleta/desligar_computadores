@@ -47,6 +47,14 @@
             "os":"Linux",
             "usuario": "marcelo",
             "senha": "Cpf04687N"
+        },
+        {
+            "nome":"Computador Teste",
+            "descricao":"Maquina do escritorio",
+            "IP":"192.168.20.41",
+            "os":"Linux",
+            "usuario": "root",
+            "senha": "1234"
         }
 
     ]

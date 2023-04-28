@@ -14,7 +14,7 @@ import subprocess
 from functools import partial
 from ping3 import ping
 from config import Config
-from util import comando_shutdown
+from util import comando_shutdown, ExecutaComando
 
 class Computadores(MDFloatLayout):
     
@@ -89,7 +89,9 @@ class Computadores(MDFloatLayout):
         
     def desligar_computador(self, computador, dt):
         comando = comando_shutdown(computador)
-        threading.Thread(target=subprocess.run, args=(comando, ), shell=True).start()
+        
+        executar_comando = ExecutaComando(comando)
+        executar_comando.start()
         
         self.dialog.dismiss()
         

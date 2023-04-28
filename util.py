@@ -1,5 +1,5 @@
 import platform
-import subprocess, platform
+import subprocess, platform, threading
 
 def ping(host):
     
@@ -34,7 +34,19 @@ def comando_shutdown(computador):
     return comando
             
         
-            
+class ExecutaComando(threading.Thread):
+    
+    def __init__(self, comando):
+       threading.Thread.__init__(self)
+       self.comando = comando
+       
+    
+    def run(self):
+        
+        if platform.system().lower() == 'windows':
+            subprocess.run(self.comando, shell=True)
+        else:
+            subprocess.run(self.comando)
     
     
     
