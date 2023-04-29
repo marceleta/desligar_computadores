@@ -26,7 +26,7 @@ def comando_shutdown(computador):
             comando = ['net', 'rpc', 'shutdown', '-f', '-I', computador['IP'], '-U', login]
     else:
         if computador_alvo == 'windows':
-            comando = ['psshutdown',  '-t', '1', '-u', computador['usuario'], '-p', computador['senha'], '\\'+computador['IP']]
+            comando = ['psshutdown','\\\\'+computador['IP'],  '-t', '1', '-u', computador['usuario'], '-p', computador['senha']]
         else:
             host = computador['usuario'] + '@' + computador['IP']
             comando = ['plink', host, '-pw', computador['senha'], '-batch', 'shutdown now']
