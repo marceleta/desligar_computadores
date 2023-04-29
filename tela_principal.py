@@ -89,7 +89,7 @@ class Computadores(MDFloatLayout):
         
     def desligar_computador(self, computador, dt):
         comando = comando_shutdown(computador)
-        
+        print('Comando: {}'.format(comando))
         executar_comando = ExecutaComando(comando)
         executar_comando.start()
         
